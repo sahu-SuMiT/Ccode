@@ -1,32 +1,47 @@
-#include <stdio.h>
+#include<stdio.h>
 int main(){
-  int m=4,n=3,p=3;
-  /* int a[m][n];
-  int b[n][p];
-  int res[m][p]={0}; */
+  int m,n,p;
 
-  int matrix1[4][3]={1,2,3,4,5,6,7,8,9,1,2,3};
-  int matrix2[3][3]={1,2,3,4,5,6,7,8,9};
-  int result[4][3]={0};
-  
-
+  //first matrix a
+  printf("Enter mxn for first matrix with gap : ");
+  scanf("%d %d",&m,&n);
+  int a[m][n];
+  printf("Enter the Entries :\n");
   for(int i=0;i<m;i++){
-    for(int j=0;j<p;j++){  //ai0b0j+ai1b1j+ai2b2j
-    
-      
-      for(int k=0;k<n;k++){
-      result[i][j]=result[i][j]+matrix1[i][k]*matrix2[k][j];}
+    for (int j=0;j<n;j++){
+      scanf("%d",&a[i][j]);
     }
-    printf("\n");
   }
 
+  //second Matrix b
+  printf("Enter nxp for second matrix with gap : ");
+  scanf("%d %d",&n,&p);
+  int b[n][p];
+  printf("Enter the Entries :\n");
+  for(int i=0;i<n;i++){
+    for (int j=0;j<p;j++){
+      scanf("%d",&b[i][j]);
+    }
+  }
+
+  //resultant matrix r
+  int r[m][p];
   for(int i=0;i<m;i++){
     for(int j=0;j<p;j++){
-      printf("%d ",result[i][j]);
+      r[i][j]=0;
+      for(int k=0;k<n;k++){
+        r[i][j]+=a[i][k]*b[k][j];//for n=3=> ai0*b0j + ai1*b1j + ai2*b2j
+      }
+    }
+  }
+
+  
+  //Print Resultant
+  for(int i=0;i<m;i++){
+    for(int j=0;j<p;j++){
+      printf("%d ",r[i][j]);
     }
     printf("\n");
   }
-  return 0;
-
-  
+ return 0;
 }
