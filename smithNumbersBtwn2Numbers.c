@@ -1,6 +1,24 @@
 // Online C compiler to run C program online
 #include <stdio.h>
 #include <stdbool.h>
+bool isPrime(int n);
+int digitSum(int n);
+int primeFacSum(int n);
+int main() {
+    int a,b;
+    printf("Enter a number range for Smith number : ");
+    scanf("%d %d",&a,&b);
+    printf("Folling are Smith Number\n");
+    for(int i=a;i<=b;i++){
+      if(digitSum(i)==primeFacSum(i)){
+        if(isPrime(i)){continue;}
+        printf("%d ",i);
+      }
+    }
+    return 0;
+}
+
+//functions
 bool isPrime(int n){
     if(n<=2){
         return false;
@@ -32,19 +50,4 @@ int primeFacSum(int n){
             break;
         }
     }return sum;
-}
-
-
-int main() {
-    int a,b;
-    printf("Enter a number range for Smith number : ");
-    scanf("%d %d",&a,&b);
-    printf("Folling are Smith Number\n");
-    for(int i=a;i<=b;i++){
-      if(digitSum(i)==primeFacSum(i)){
-        if(isPrime(i)){continue;}
-        printf("%d ",i);
-      }
-    }
-    return 0;
 }
