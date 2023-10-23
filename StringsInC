@@ -1,0 +1,7 @@
+char arr[]={'h','e','l','l','o',' ','w','o','r','l','d','!'};
+for(int i=0;i<12;i++){
+  printf("%c",arr);}   //hello world!
+
+for a Null Character '\0'
+ char a='\0';
+  printf("Your null character is >%c<",a);  //Your null character is ><
