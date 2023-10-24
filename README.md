@@ -1,2 +1,2 @@
 # Ccode
-some difficult and effort taking to understand codes
+some difficult and effort taking to understand codes ©✔️
