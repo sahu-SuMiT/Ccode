@@ -1,2 +1,2 @@
-# Ccode
-some difficult and effort taking to understand codes ©✔️
+
+code time stamps ©✔️
