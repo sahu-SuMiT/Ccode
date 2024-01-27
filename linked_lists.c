@@ -195,3 +195,17 @@ void delete_at_index(struct node *head){
     temp->next->prev=head;
     free(temp);
 }
+struct double_list * merge_double_list(struct double_list *head1,struct double_list*head2){
+    struct double_list *temp=head1;
+    if(head1==NULL){
+        return head2;
+    }
+    while(temp->next!=NULL){
+        temp=temp->next;
+    }
+    temp->next=head2;
+    if(head2!=NULL){
+    head2->prev=temp;
+    }
+    return head1;
+}
