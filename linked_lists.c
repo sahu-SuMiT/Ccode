@@ -165,3 +165,14 @@ void add_node_at_index(struct double_list *head){
     head->next->data=data;
     temp->prev=head->next;
 }
+void deleteAtlast(struct node *head)
+{
+    struct node *temp=head;
+    while(temp->next!=NULL)
+    {
+        head=temp;
+        temp=temp->next;
+    }
+        head->next=NULL;
+        free(temp);
+}
