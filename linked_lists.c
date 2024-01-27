@@ -97,3 +97,57 @@ void insert_at_index(struct list *head){
     printf("Enter data for the index: ");scanf("%d",&data);
     temp->data=data;
 }
+struct double_list{
+    struct double_list *prev;
+    int data;
+    struct double_list *next;
+};
+struct double_list *create_double_list(){
+    struct double_list *head, *ptr1, *ptr2; int data; char ch;
+    ptr1=head=malloc(sizeof(struct double_list));
+    printf("Enter data: ");scanf("%d",&data);getchar();
+    ptr1->data=data;
+    ptr1->prev=NULL;
+    ptr1->next=NULL;
+    printf("Enter n to exit: ");ch=getchar();
+    while(ch!='n'){
+        ptr2=malloc(sizeof(struct double_list));
+        printf("Enter data: ");scanf("%d",&data);getchar();
+        ptr2->data=data;
+        ptr2->prev=ptr1;
+        ptr2->next=NULL;
+        ptr1->next=ptr2;
+        ptr1=ptr2;
+        printf("Enter n to exit: ");ch=getchar();
+    }
+    return head;
+}
+void print_double_list(struct double_list *head){
+    while(head!=NULL){
+        printf("%p %d %p\n",head->prev,head->data,head->next);
+        head=head->next;
+    }
+}
+struct double_list *add_node_at_beginning(struct double_list *head){
+    struct double_list *temp=head; int data;
+    head=malloc(sizeof(struct double_list));
+    head->next=temp;
+    head->prev=NULL;
+    printf("Enter data: ");scanf("%d",&data);
+    head->data=data;
+    temp->prev=head;
+    return head;
+}
+void add_node_at_end(struct double_list *head){
+    struct double_list *temp;int data;
+    while(head!=NULL){
+       temp=head;
+       head=head->next; 
+    }
+    
+    temp->next=head=malloc(sizeof(struct double_list));
+    head->prev=temp;
+    printf("Enter data: ");scanf("%d",&data);
+    head->data=data;
+    head->next=NULL;
+}
