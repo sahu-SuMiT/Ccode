@@ -184,3 +184,14 @@ struct node * delete_at_beginning(struct node *head)
     free(temp);
     return head;
 }
+void delete_at_index(struct node *head){
+    struct node*temp=head;int index;
+    printf("Enter index: ");scanf("%d",&index);
+    for(int i=0;i<index;i++){
+        head=temp;
+        temp=temp->next;
+    }
+    head->next=temp->next;
+    temp->next->prev=head;
+    free(temp);
+}
