@@ -151,3 +151,17 @@ void add_node_at_end(struct double_list *head){
     head->data=data;
     head->next=NULL;
 }
+void add_node_at_index(struct double_list *head){
+    struct double_list *temp=head;int data;int index;
+    printf("Enter index: ");scanf("%d",&index);
+    for(int i=0;i<index;i++){
+        head=temp;
+        temp=temp->next;
+    }
+    head->next=malloc(sizeof(struct double_list));
+    head->next->prev=head;
+    head->next->next=temp;
+    printf("Enter data: ");scanf("%d",&data);
+    head->next->data=data;
+    temp->prev=head->next;
+}
