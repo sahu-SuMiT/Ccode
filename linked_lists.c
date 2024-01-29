@@ -209,3 +209,144 @@ struct double_list * merge_double_list(struct double_list *head1,struct double_l
     }
     return head1;
 }
+
+struct circular_list{
+    int data;
+    struct circular_list *next;
+};
+struct circular_list *create_circular_list(){
+    struct circular_list *head, *ptr1, *ptr2; int data; char ch;
+    ptr1=head=malloc(sizeof(struct circular_list));
+    printf("Enter data: ");scanf("%d",&data);getchar();
+    ptr1->data=data;
+    ptr1->next=NULL;
+    printf("Enter n to exit: ");ch=getchar();
+    while(ch!='n'){
+        ptr2=malloc(sizeof(struct circular_list));
+        printf("Enter data: ");scanf("%d",&data);getchar();
+        ptr2->data=data;
+        ptr2->next=NULL;
+        ptr1->next=ptr2;
+        ptr1=ptr2;
+        printf("Enter n to exit: ");ch=getchar();
+    }
+    ptr2->next=head;
+    return head;
+}
+void print_circular_list(struct circular_list *head){
+    struct circular_list *temp=head;int data;
+    printf("%d %p\n",temp->data,temp->next);
+    temp=temp->next;
+    
+     while(temp!=head){
+         printf("%d %p\n",temp->data,temp->next);
+         temp=temp->next;
+     }
+     printf("\n");    
+}
+struct circular_list *add_at_beginning(struct circular_list *head){
+    struct circular_list *temp=head;int data;
+    struct circular_list *temp2=temp;
+    head=malloc(sizeof(struct circular_list));
+    printf("Enter data at beginning: ");scanf("%d",&data);
+    head->data=data;
+    head->next=temp;
+    while(temp2->next!=temp){
+        temp2=temp2->next;
+    }
+    temp2->next=head;
+    return head;
+}
+void add_at_end(struct circular_list *head){
+    struct circular_list *temp=head;int data;
+    while(temp->next!=head){
+        temp=temp->next;
+    }
+    temp->next=temp=malloc(sizeof(struct circular_list));
+    printf("Enter data at end: ");scanf("%d",&data);
+    temp->data=data;
+    temp->next=head;
+}
+void add_at_index(struct circular_list *head){
+    struct circular_list *temp=head;int index; int data;
+    printf("Enter index: ");scanf("%d",&index);
+    for(int i=0;i<index;i++){
+        head=temp;
+        temp=temp->next; //0 1 2 3 4 5
+    }
+    head->next=malloc(sizeof(struct circular_list));
+    head->next->next=temp;
+    printf("Enter data at index: ");scanf("%d",&data);
+    head->next->data=data;
+
+}
+struct circular_list *delete_at_beginning(struct circular_list *head){
+    struct circular_list *temp=head;
+    temp=temp->next;
+    while(temp->next!=head){
+        temp=temp->next;
+    }
+    temp->next=head->next;
+    free(head);
+    head=temp->next;
+    return head;
+}
+void delete_at_end(struct circular_list *head){
+    struct circular_list *temp=head;
+    temp=temp->next;
+    while(temp->next->next!=head){
+        temp=temp->next;
+    }
+    free(temp->next);
+    temp->next=head;
+}
+void delete_at_index(struct circular_list *head){
+    struct circular_list *temp=head;int index;
+    printf("Enter index: ");scanf("%d",&index);
+    for(int i=0;i<index;i++){
+        head=temp;
+        temp=temp->next;
+    }
+    head->next=temp->next;
+    free(temp);
+}
+
+//circular double linked list
+struct node{
+    struct node *prev;
+    int data;
+    struct node*next;
+};
+
+struct node *create_circular_double(struct node *head){
+    struct node *ptr1,*ptr2; int data;char ch;
+    ptr1=head=malloc(sizeof(struct node));
+    ptr1->prev=NULL;
+    printf("Enter data: ");scanf("%d",&data);getchar();
+    ptr1->data=data;
+    ptr1->next=NULL;
+    printf("Enter n to exit: ");ch=getchar();
+    while(ch!='n'){
+        ptr2=malloc(sizeof(struct node));
+        ptr2->prev=ptr1;
+        printf("Enter data: ");scanf("%d",&data);getchar();
+        ptr2->data=data;
+        ptr2->next=head;
+        ptr1->next=ptr2;
+        ptr1=ptr2;
+        printf("Enter n to exit: ");ch=getchar();
+    }
+    head->prev=ptr2;
+    return head;
+}
+
+void print_circular_double(struct node *head){
+    struct node *temp=head;
+    printf("HEAD: %p\n",head);
+    printf("%p %d %p\n",temp->prev,temp->data,temp->next);
+    temp=temp->next;
+    while(temp!=head){
+        printf("%p %d %p\n",temp->prev,temp->data,temp->next);
+        temp=temp->next;
+    }
+}
