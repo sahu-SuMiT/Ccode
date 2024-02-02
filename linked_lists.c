@@ -350,3 +350,158 @@ void print_circular_double(struct node *head){
         temp=temp->next;
     }
 }
+
+//code to move elements in a linked list
+#include <stdio.h>
+#include <stdlib.h>
+
+struct list{
+    int data;
+    struct list *next;
+};
+struct list *create_list();
+void print_list(struct list *head);
+struct list *insert_at_beginning(struct list *head,int data);
+void insert_at_end(struct list *head,int data);
+void insert_at_index(struct list *head,int index,int data);
+struct list *delete_at_beginning(struct list *head);
+void delete_at_end(struct list *head);
+void delete_at_index(struct list *head);
+struct list *move_from_beginning(struct list *head);
+struct list *move_from_index(struct list *head);
+
+int main() {
+    struct list *head;
+    head=create_list();
+    print_list(head);
+    head=move_from_index(head);
+    print_list(head);
+
+    return 0;
+}
+
+struct list *create_list(){
+    struct list *head, *ptr1, *ptr2; int data; char ch;
+    ptr1=head=malloc(sizeof(struct list));
+    printf("Enter data: ");scanf("%d",&data);getchar();
+    ptr1->data=data;
+    ptr1->next=NULL;
+    printf("Enter n to exit: ");ch=getchar();
+    while(ch!='n'){
+        ptr2=malloc(sizeof(struct list));
+        printf("Enter data: ");scanf("%d",&data);getchar();
+        ptr2->data=data;
+        ptr2->next=NULL;
+        ptr1->next=ptr2;
+        ptr1=ptr2;
+        printf("Enter n to exit: ");ch=getchar();
+    }
+    return head;
+}
+void print_list(struct list *head){
+     while(head!=NULL){
+         printf("%d ",head->data);
+         head=head->next;
+     }
+     printf("\n");
+     
+}
+struct list *insert_at_beginning(struct list *head,int data){
+    struct list *temp=head;char ch;
+    head=malloc(sizeof(struct list));
+
+    head->data=data;
+    head->next=temp;
+    return head;
+}
+void insert_at_end(struct list *head,int data){
+    struct list *temp=head;
+    while(head!=NULL){
+        temp=head;
+        head=head->next;
+    }
+    head=temp->next=malloc(sizeof(struct list));
+
+    head->data=data;
+    head->next=NULL;
+}
+void insert_at_index(struct list *head,int index,int data){
+    struct list *temp=head;
+    for(int i=0;i<index;i++){
+        temp=head;
+        head=head->next;
+    }
+    temp->next=malloc(sizeof(struct list));
+    temp=temp->next;
+    temp->next=head;
+
+    temp->data=data;
+}
+struct list *delete_at_beginning(struct list *head){
+    if(head==NULL){
+        return 0;
+    }
+    struct list *temp=head;
+    head=head->next;
+    temp->next=NULL;
+    free(temp);
+    temp=NULL;
+    return head;
+}
+void delete_at_end(struct list *head){
+    struct list *temp=head;
+    while(temp->next!=NULL){
+        head=temp;
+        temp=temp->next;
+    }
+    free(temp);
+    temp=NULL;
+    head->next=NULL;
+}
+void delete_at_index(struct list *head){
+    struct list *temp=head; int index; 
+    printf("Enter index: ");scanf("%d",&index);
+    for(int i=0;i<index;i++){
+        head=temp;
+        temp=temp->next;
+    }
+    head->next=temp->next;
+    free(temp);   
+    temp=NULL;
+}
+struct list *move_from_beginning(struct list *head){
+    struct list *temp=head;int to_index;
+    printf("Enter to which index: ");scanf("%d",&to_index);
+    if(to_index==0){
+        return head;
+    }
+    head=head->next;
+    insert_at_index(head,to_index,temp->data);
+    free(temp);
+    return head;
+}
+struct list *move_from_index(struct list *head){
+    struct list *temp=head,*temp2=head;int from_index;
+    printf("from index: ");scanf("%d",&from_index);
+    if(from_index==0){
+        head=move_from_beginning(head);
+        return head;
+    }
+    for(int i=0;i<from_index;i++){
+        head=temp;
+        temp=temp->next;
+    }
+    head->next=temp->next; int to_index;
+    printf("to_index: ");scanf("%d",&to_index);
+    if(to_index==0){
+        temp2=insert_at_beginning(temp2,temp->data);
+        free(temp);
+        return temp2;
+    }
+    insert_at_index(temp2,to_index,temp->data);
+    free(temp);
+    return temp2;
+}
+
+//
+
