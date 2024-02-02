@@ -97,6 +97,14 @@ void insert_at_index(struct list *head){
     printf("Enter data for the index: ");scanf("%d",&data);
     temp->data=data;
 }
+struct list *merge(struct list *head1, struct list *head2){
+    struct list *temp=head1;
+    while(temp->next!=NULL){
+        temp=temp->next;
+    }
+    temp->next=head2;
+    return head1;
+}
 struct double_list{
     struct double_list *prev;
     int data;
