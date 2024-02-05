@@ -40,3 +40,21 @@ int main() {
     }
    return 0;
 }
+//need some correction
+int isEmpty(){
+    
+    if(q.front==-1 && q.rear==-1){
+        return 1;
+    }
+    else{
+        return 0;
+    }
+}
+
+int isFull(){
+    if(q.rear==MAXSIZE-1){
+        printf("q.rear = %d\n",q.rear);
+        return 1;
+    }
+    return 0;
+}
