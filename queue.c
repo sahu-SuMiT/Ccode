@@ -1,60 +1,33 @@
 #include <stdio.h>
+#include <stdlib.h>
 #define MAXSIZE 100
+
 struct queue{
     int front;
     int rear;
     int items[MAXSIZE];
 };
-struct queue q;
 
-void enqueue(struct queue *q, int value){
-    static int count=1;
-    if(q->rear==MAXSIZE-1){//at rear==99 count == 100 count=101...
-        
-        if(count>100){
-            printf("Queue is already full\n");
+void enqueue(struct queue *head, int value){
+    if(head->rear<99){
+        if(head->front == -1){
+            head->front=0;
         }
-        else{
-        q->items[q->rear]=value;
-        printf("Inserted %d into queue\n",value);
-        printf("Queue is Full\n");
+        head->rear++;
+        head->items[head->rear]=value;
+        printf("Inserted %d in the queue with rear %d\n",value,head->rear);
+        if(head->rear==99){
+            printf("Queue is full\n");
         }
     }
     else{
-        q->rear++;//rear=0,1,2,...98, 
-        if(q->front == -1){
-            q->front = 0;
-        }
-        q->items[q->rear]=value;
-        printf("Inserted %d into queue\n",value);
+        printf("Queue is already full\n");
     }
-    count++;
 }
-
 int main() {
-   struct queue *temp;
-   int value=11;
-    for(int i=0;i<101;i++){
-        enqueue(temp,value);
-        value++;
-    }
+   struct queue *q1;
+   q1=malloc(sizeof(struct queue));
+   q1->front=-1;q1->rear=-1;
+   
    return 0;
-}
-//need some correction
-int isEmpty(){
-    
-    if(q.front==-1 && q.rear==-1){
-        return 1;
-    }
-    else{
-        return 0;
-    }
-}
-
-int isFull(){
-    if(q.rear==MAXSIZE-1){
-        printf("q.rear = %d\n",q.rear);
-        return 1;
-    }
-    return 0;
 }
