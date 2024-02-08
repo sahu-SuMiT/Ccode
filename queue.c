@@ -38,6 +38,34 @@ void peek(struct queue *head){
         printf("first element %d\n",head->items[0]);
     }
 }
+int queue_size(struct queue *head){
+    if(isEmpty(head)){
+        return 0;
+    }
+    else{
+        return head->rear - head->front + 1;
+    }
+}
+void remove_from_beg_array(int array[],int size){
+    int i;
+    for(i=0;i<=size-2;i++){
+        array[i]=array[i+1];
+    }
+    array[i]=0;
+}
+void dequeue(struct queue *head){
+    if(isEmpty(head)){
+        printf("Queue is already empty\n");
+        return;
+    } head->rear--;
+    printf("removed %d from queue now rear %d\n",head->items[head->front],head->rear);
+    remove_from_beg_array(head->items,MAXSIZE);
+    if(head->rear==-1){
+        head->front=-1;
+        printf("Queue is empty now\n");
+    }
+    
+}
 int main() {
    struct queue *q1;
    q1=malloc(sizeof(struct queue));
