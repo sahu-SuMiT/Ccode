@@ -24,6 +24,20 @@ void enqueue(struct queue *head, int value){
         printf("Queue is already full\n");
     }
 }
+int isEmpty(struct queue *head){
+    if(head->rear==-1 && head->front==-1){
+        return 1;
+    }
+    return 0;
+}
+void peek(struct queue *head){
+    if(isEmpty(head)){
+        printf("Empty\n");
+    }
+    else{
+        printf("first element %d\n",head->items[0]);
+    }
+}
 int main() {
    struct queue *q1;
    q1=malloc(sizeof(struct queue));
