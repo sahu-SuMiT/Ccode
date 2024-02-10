@@ -30,3 +30,23 @@ void pop(){
     }
     printf("%d poped from the stack\n",stack[top--]);
 }
+int isEmpty(){
+    if(top==-1){
+        return 1;
+    }
+    return 0;
+}
+int isFull(){
+    if(top==MAX-1){
+        return 1;
+    }
+    return 0;
+}
+
+int peek(){
+    if(top<0){
+        printf("Stack is Empty...\n");
+        return 0;
+    }
+    return stack[top];
+}
