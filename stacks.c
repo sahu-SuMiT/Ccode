@@ -4,7 +4,7 @@ isEmpty(): It determines whether the stack is empty or not.
 isFull(): It determines whether the stack is full or not.'
 peek(): It returns the element at the given position.
 count(): It returns the total number of elements available in a stack.
-change(): It changes the element at the given position.
+change(): It changes the element at the given position.Indexing in stack is done from bottom to top.
 display(): It prints all the elements available in the stack.
 
 
@@ -49,4 +49,27 @@ int peek(){
         return 0;
     }
     return stack[top];
+}
+int count(){
+    return top+1;
+}
+void change(int index, int element){
+    if(index>=0 && index <MAX){
+        printf("%d changed to %d at index %d\n",stack[index],element,index);
+        stack[index]=element;
+    }
+    else{
+    printf("Enter a valid Index...\n");
+    }
+}
+
+void display(){
+    if(top==-1){
+        printf("Stack is Empty\n");
+        return;
+    }
+    printf("Displaying the stack elements\n");
+    for(int i=top;i>=0;i--){
+        printf("%d\n",stack[i]);
+    }
 }
