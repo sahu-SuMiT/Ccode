@@ -73,3 +73,83 @@ int main() {
    
    return 0;
 }
+
+
+queue pure pointers
+...............................................................................................
+
+#include <stdio.h>
+#define MAXSIZE 100
+struct queue{
+    int front;
+    int rear;
+    int items[MAXSIZE];
+};
+
+void insert(struct queue *head,int value){
+    if(isFull(head)){
+        printf("Queue is already full\n");
+        return;
+    }
+    if(head->front==-1){
+        head->front=0;
+    }
+    
+    head->items[++head->rear]=value;
+    printf("%d inserted with rear %d,front %d\n",value,head->rear,head->front);
+    if(isFull(head)){
+        printf("Queue is full NOW\n");
+        return;
+    }
+}
+void delete_at_front_in_array(int array[]){
+    printf("deleted %d from array\n",array[0]);
+    for(int i=0;i<MAXSIZE-1;i++){
+        array[i]=array[i+1];
+    }
+}
+void dequeue(struct queue *head){
+    if(head->rear==-1 && head->front==-1){
+        printf("Queue is empty now\n");
+        return;
+    }
+    delete_at_front_in_array(head->items);
+    head->rear--;
+    if(head->rear==-1){
+        head->front=-1;
+    }
+    printf("rear now %d and front now %d\n",head->rear,head->front);
+    
+}
+int isFull(struct queue *head){
+    if(head->rear==MAXSIZE-1){
+        return 1;
+    }
+    return 0;
+}
+int isEmpty(struct queue *head){
+    if(head->rear==-1){
+        return 1;
+    }
+    return 0;
+}
+int main() {
+    struct queue *head=malloc(sizeof(struct queue));
+    head->front=-1;head->rear=-1;
+    insert(head,12);
+    insert(head,13);
+    dequeue(head);
+    insert(head,120);
+    insert(head,1231);
+    
+    int val=0;
+    for(int i=0;i<MAXSIZE;i++){
+        val++;
+        insert(head,val);
+    }
+    for(int i=0;i<MAXSIZE+3;i++){
+        val++;
+        dequeue(head);
+    }
+    return 0;
+}
