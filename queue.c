@@ -153,3 +153,97 @@ int main() {
     }
     return 0;
 }
+
+queue pure linked lists
+................................................................................................
+
+#include <stdio.h>
+#include <stdlib.h>
+struct list{
+    int data;
+    struct list *next;
+};
+//queue 1
+int rear=-1;int front=-1;
+
+struct list *create_list(){
+    struct list *head, *ptr1, *ptr2; int data; char ch;
+    ptr1=head=(struct list*)malloc(sizeof(struct list));
+    printf("Enter data: ");scanf("%d",&data);getchar();
+    ptr1->data=data;
+    ptr1->next=NULL;
+    printf("Enter n to exit: ");ch=getchar();
+    while(ch!='n'){
+        ptr2=(struct list*)malloc(sizeof(struct list));
+        printf("Enter data: ");scanf("%d",&data);getchar();
+        ptr2->data=data;
+        ptr2->next=NULL;
+        ptr1->next=ptr2;
+        ptr1=ptr2;
+        printf("Enter n to exit: ");ch=getchar();
+    }
+    return head;
+}
+void print_list(struct list *head){
+    printf("your linked list\n");
+     while(head!=NULL){
+         printf("%d ",head->data);
+         head=head->next;
+     }
+     printf("\n");
+}
+struct list* enqueue(struct list *head,int value){
+    if(front==-1){front=0;} rear++;
+    printf("Inserted %d at rear=%d f=%d\n",value,rear,front);
+    if(head==NULL){
+        head=(struct list*)malloc(sizeof(struct list));
+        head->data=value;
+        head->next=NULL;
+        return head;
+    }
+    struct list *temp=head;
+    while(temp->next!=NULL){
+        temp=temp->next;
+    }
+    temp->next=(struct list*)malloc(sizeof(struct list));
+    temp=temp->next;
+    temp->data=value;
+    temp->next=NULL;
+    return head;
+}
+struct list* dequeue(struct list *head){
+    if(front==-1 && rear==-1){
+        printf("Queue is already empty\n");return head;
+    }
+    struct list* temp=head;rear--;if(rear==-1){front=-1;}
+    printf("%d removed from queue, rear=%d, front=%d\n",head->data,rear,front);
+    head=head->next;
+    free(temp);
+    temp=NULL;
+    
+    if(rear==-1){
+        printf("Queue is empty now\n");
+    }
+    return head;
+}
+int size(struct list *head){
+    int count=0;
+    while(head!=NULL){
+        head=head->next; count++;
+    }
+    return count;
+}
+int main() {
+    struct list *head; int value=0;
+    for(int i =0;i<1000;i++){
+    head=enqueue(head,value);value++;
+    }
+    printf("size(head): %d\n",size(head));
+    for(int i=0;i<1030;i++){
+        head=dequeue(head);
+    }
+    
+    
+
+    return 0;
+}
