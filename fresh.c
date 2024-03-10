@@ -47,3 +47,34 @@ int main() {
 
     return 0;
 }
+
+playing with pointer arrays
+// Online C compiler to run C program online
+#include <stdio.h>
+#include <stdlib.h>
+int main() {
+    int m=3,n=4;
+    int **array;
+
+    array=malloc(sizeof(int *)*m);
+    for(int j=0;j<n;j++){
+        *(array+j)=malloc(sizeof(int)*n);
+    }
+    
+    
+    int num=1;
+    //filling the elemetns
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            array[i][j]=num; num++;
+        }
+    }
+    //print
+    for(int i=0;i<m;i++){
+        for(int j=0;j<n;j++){
+            printf("%d ",array[i][j]);
+        }
+        printf("\n");
+    }
+    return 0;
+}
