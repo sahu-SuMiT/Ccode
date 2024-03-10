@@ -1,43 +1,53 @@
+
 #include <stdio.h>
 #include <stdlib.h>
-#define MAX_NODES 50
-
+#define MAXNODES 50
 struct Graph{
     int V;
-    int adj[MAX_NODES][MAX_NODES];
+    int adj[MAXNODES][MAXNODES];
 };
 
-struct Graph* create_graph(int no_of_vertices){
-    struct Graph *head=malloc(sizeof(struct Graph));
-    head->V=no_of_vertices;
-    
-    //initialise
-    for(int i=0;i<MAX_NODES;i++){
-        for(int j=0;j<MAX_NODES;j++){
-            head->adj[i][j]=0;
+struct Graph *create_graph(int vertices){
+        struct Graph *head=malloc(sizeof(struct Graph));
+        head->V=vertices;
+        for(int i=0;i<vertices;i++){
+            for(int j=0;j<vertices;j++){
+                head->adj[i][j]=0;
+            }
         }
-    }
-    return head;
+        return head;
 }
 
-void print_graph(struct Graph *head){
+void add_node(struct Graph *head,int src,int dest){
     for(int i=0;i<head->V;i++){
-        for(int j=0;j<head->V;j++){
-            printf("%d ",head->adj[i][j]);
+            for(int j=0;j<head->V;j++){
+                head->adj[src][dest]=1;
+            }
         }
-        printf("\n");
+}
+
+void DFS(struct Graph *head, int s, int *visited){
+
+    if(!visited[s]){
+        printf("%d ",s);
+        visited[s]=1;
+    }
+    for(int adjancy=0;adjancy<head->V;adjancy++){
+        if(!visited[adjancy] && head->adj[s][adjancy]){
+            DFS(head,adjancy,visited);
+        }
     }
 }
 
 void BFS(struct Graph *g, int s){
     int i=0;
     
-    int visited[MAX_NODES];
+    int visited[g->V];
     for(;i<g->V;i++){
         visited[i]=0;
     }
     
-    int queue[MAX_NODES];
+    int queue[MAXNODES];
     int front=0;int rear=0;
     
     queue[rear++]=s;
@@ -67,29 +77,31 @@ void BFS(struct Graph *g, int s){
         
     }
 }
-
-void add_node(struct Graph *g, int src, int dest){
-    for(int i=0;i<g->V;i++){
-        for(int j=0;j<g->V;j++){
-            g->adj[src][dest]=1;
-        }
-    }
-}
-
-int main(){
-    struct Graph *head= create_graph(4);
-    printf("initially your graph\n");
-    print_graph(head);
-    
+int main() {
+    struct Graph *head=create_graph(4);
     add_node(head,0,1);
-    add_node(head,0,2);
+    add_node(head,0,3);
     add_node(head,1,2);
     add_node(head,2,0);
     add_node(head,2,3);
-
-    printf("After adding some arcs\n");
-    print_graph(head);
+    add_node(head,3,3);
     
+    //printing the graph
+    for(int i=0;i<head->V;i++){
+        for(int j=0;j<head->V;j++){
+            printf("%d",head->adj[i][j]);
+        }
+        printf("\n");
+    }
+    
+    printf("DFS\n");
+    int visited[head->V];
+    for(int i=0;i<head->V;i++){
+        visited[i]=0;
+    }
+    DFS(head,2,visited);
+    printf("\nBFS\n");
     BFS(head,2);
-
+    return 0;
+    
 }
