@@ -113,3 +113,19 @@ int main(){
   return 0;}
 
 
+//new and delete to an array of char
+#include "iostream"
+using namespace std;
+#include "cstring"
+int main(){
+  //char str[]="Idle hands are the devil's workshop.";
+  char* str="Idle hands are the devil's workshop.";
+  int len=strlen(str);
+  cout<<"strlen(str): "<<strlen(str)<<endl;
+  char *ptr; ptr=new char[len+1];
+  strcpy(ptr,str);
+  cout<<endl<<"ptr: "<<ptr<<endl;
+  cout<<"ptr might have printed upside\n";
+  delete ptr;
+  return 0;}
+
