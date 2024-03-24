@@ -8,68 +8,82 @@ change(): It changes the element at the given position.Indexing in stack is done
 display(): It prints all the elements available in the stack.
 
 
+ 
 #include <stdio.h>
-
-#define MAX 100
-int top=-1;
-int stack[MAX];
-
-void push(int element){
-    if(top>=MAX-1){
-        printf("Stack Overflow!...\n");
+#include <limits.h>
+#include <stdlib.h>
+struct Stack{
+    int *array;
+    int top,size;
+    unsigned capacity;
+};
+struct Stack *create_stack(unsigned capacity){
+    struct Stack *s=(struct Stack*)malloc(sizeof(struct Stack));
+    s->array=malloc(sizeof(int)*capacity);
+    s->capacity=capacity;
+    s->top=-1;s->size=0;
+    return s;
+}
+int isEmpty(struct Stack *s){
+    return !s->size;
+}
+int isFull(struct Stack *s){
+    return s->size==s->capacity;
+}
+int peek(struct Stack *s){
+    if(isEmpty(s)){
+        printf("Stack is empty!!!\n");
+        return -1;
+    }
+    return s->array[s->top];
+}
+void push(struct Stack *s,int data){
+    if(isFull(s)){
+        printf("Stack Overflow!!\n");
         return;
     }
-    stack[++top]=element;
-    printf("%d pushed into stack\n",element);
+    s->array[++s->top]=data;
+    printf("pushed %d\n",data);
+    s->size++;
 }
-
-void pop(){
-    if(top<0){
-        printf("Stack Underflow!...\n");
-        return;
+int pop(struct Stack *s){
+    if(isEmpty(s)){
+        printf("Stack Underflow!!!\n");
+        return -1;
     }
-    printf("%d poped from the stack\n",stack[top--]);
+    printf("popped %d\n",s->array[s->top]);
+    s->size--;
+    return s->array[s->top--];
+    
 }
-int isEmpty(){
-    if(top==-1){
-        return 1;
-    }
+ 
+int main()
+{
+    struct Stack *s=create_stack(5);
+    printf("capa:%d_top:%d_size:%disEmpty(s):%disFull(s);%d\n\n",s->capacity,s->top,s->size,isEmpty(s),isFull(s));
+    push(s,10);
+    printf("capa:%d_top:%d_size:%disEmpty(s):%disFull(s);%d\n\n",s->capacity,s->top,s->size,isEmpty(s),isFull(s));
+    push(s,20);
+    printf("capa:%d_top:%d_size:%disEmpty(s):%disFull(s);%d\n\n",s->capacity,s->top,s->size,isEmpty(s),isFull(s));
+    push(s,30);
+    printf("capa:%d_top:%d_size:%disEmpty(s):%disFull(s);%d\n\n",s->capacity,s->top,s->size,isEmpty(s),isFull(s));
+    push(s,30);
+    printf("capa:%d_top:%d_size:%disEmpty(s):%disFull(s);%d\n\n",s->capacity,s->top,s->size,isEmpty(s),isFull(s));
+    push(s,40);
+    printf("capa:%d_top:%d_size:%disEmpty(s):%disFull(s);%d\n\n",s->capacity,s->top,s->size,isEmpty(s),isFull(s));
+    push(s,50);
+    printf("capa:%d_top:%d_size:%disEmpty(s):%disFull(s);%d\n\n",s->capacity,s->top,s->size,isEmpty(s),isFull(s));
+    pop(s);
+    printf("capa:%d_top:%d_size:%disEmpty(s):%disFull(s);%d\n\n",s->capacity,s->top,s->size,isEmpty(s),isFull(s));
+    pop(s);
+    printf("capa:%d_top:%d_size:%disEmpty(s):%disFull(s);%d\n\n",s->capacity,s->top,s->size,isEmpty(s),isFull(s));
+    pop(s);
+    printf("capa:%d_top:%d_size:%disEmpty(s):%disFull(s);%d\n\n",s->capacity,s->top,s->size,isEmpty(s),isFull(s));
+    pop(s);
+    printf("capa:%d_top:%d_size:%disEmpty(s):%disFull(s);%d\n\n",s->capacity,s->top,s->size,isEmpty(s),isFull(s));
+    pop(s);
+    printf("capa:%d_top:%d_size:%disEmpty(s):%disFull(s);%d\n\n",s->capacity,s->top,s->size,isEmpty(s),isFull(s));
+    pop(s);
+    printf("capa:%d_top:%d_size:%disEmpty(s):%disFull(s);%d\n\n",s->capacity,s->top,s->size,isEmpty(s),isFull(s));
     return 0;
-}
-int isFull(){
-    if(top==MAX-1){
-        return 1;
-    }
-    return 0;
-}
-
-int peek(){
-    if(top<0){
-        printf("Stack is Empty...\n");
-        return 0;
-    }
-    return stack[top];
-}
-int count(){
-    return top+1;
-}
-void change(int index, int element){
-    if(index>=0 && index <MAX){
-        printf("%d changed to %d at index %d\n",stack[index],element,index);
-        stack[index]=element;
-    }
-    else{
-    printf("Enter a valid Index...\n");
-    }
-}
-
-void display(){
-    if(top==-1){
-        printf("Stack is Empty\n");
-        return;
-    }
-    printf("Displaying the stack elements\n");
-    for(int i=top;i>=0;i--){
-        printf("%d\n",stack[i]);
-    }
 }
