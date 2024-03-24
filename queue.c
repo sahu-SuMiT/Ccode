@@ -1,158 +1,109 @@
+
 #include <stdio.h>
 #include <stdlib.h>
-#define MAXSIZE 100
+#include <limits.h>
+struct Queue{   
+    int front,rear, size;
+    unsigned capacity; 
+    int *array;};
 
-struct queue{
-    int front;
-    int rear;
-    int items[MAXSIZE];
-};
+struct Queue* create_queue(unsigned capacity){
+    struct Queue *queue=malloc(sizeof(struct Queue));
+    queue->capacity=capacity;
+    queue->front=queue->size=0;
+    queue->rear=capacity-1;
+    queue->array=malloc(sizeof(int)*queue->capacity);
+    return queue;}
 
-void enqueue(struct queue *head, int value){
-    if(head->rear<99){
-        if(head->front == -1){
-            head->front=0;
-        }
-        head->rear++;
-        head->items[head->rear]=value;
-        printf("Inserted %d in the queue with rear %d\n",value,head->rear);
-        if(head->rear==99){
-            printf("Queue is full\n");
-        }
-    }
+int isFull(struct Queue *queue){
+    if(queue->size==queue->capacity){
+        return 1;}
     else{
-        printf("Queue is already full\n");
-    }
-}
-int isEmpty(struct queue *head){
-    if(head->rear==-1 && head->front==-1){
-        return 1;
-    }
-    return 0;
-}
-void peek(struct queue *head){
-    if(isEmpty(head)){
-        printf("Empty\n");
-    }
+        return 0;}}
+
+int isEmpty(struct Queue *queue){
+    if(queue->size==0){
+        return 1;}
     else{
-        printf("first element %d\n",head->items[0]);
-    }
-}
-int queue_size(struct queue *head){
-    if(isEmpty(head)){
-        return 0;
-    }
-    else{
-        return head->rear - head->front + 1;
-    }
-}
-void remove_from_beg_array(int array[],int size){
-    int i;
-    for(i=0;i<=size-2;i++){
-        array[i]=array[i+1];
-    }
-    array[i]=0;
-}
-void dequeue(struct queue *head){
-    if(isEmpty(head)){
-        printf("Queue is already empty\n");
-        return;
-    } head->rear--;
-    printf("removed %d from queue now rear %d\n",head->items[head->front],head->rear);
-    remove_from_beg_array(head->items,MAXSIZE);
-    if(head->rear==-1){
-        head->front=-1;
-        printf("Queue is empty now\n");
-    }
-    
-}
+        return 0;}}
+
+void enqueue(struct Queue *queue,int item){
+    if(isFull(queue)){
+        printf("Queue is aleready full!\n");
+        return ;}
+    queue->rear=(queue->rear+1) %queue->capacity;
+    queue->array[queue->rear]=item;
+    queue->size=queue->size+1;
+    printf("%d enqueued\n",item);}
+
+int dequeue(struct Queue *queue){
+    if(isEmpty(queue)){
+        printf("\nQueue is empty\n");
+        return -1;}
+    int item=queue->array[queue->front];
+    queue->front=(queue->front+1)%queue->capacity;
+    queue->size=queue->size-1;
+    return item;}
+
+int front(struct Queue *queue){
+    if(isEmpty(queue)){
+        return INT_MIN;}
+    return queue->array[queue->front];}
+
+int rear(struct Queue *queue){
+    if(isFull(queue)){
+        return INT_MAX;}
+    return queue->array[queue->rear];}
+
 int main() {
-   struct queue *q1;
-   q1=malloc(sizeof(struct queue));
-   q1->front=-1;q1->rear=-1;
-   
-   return 0;
-}
+    struct Queue *q1=create_queue(10);
+    printf("f:%d_r:%d\n",q1->front,q1->rear);
+    enqueue(q1,6);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    enqueue(q1,5);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    enqueue(q1,0);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    enqueue(q1,3);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    enqueue(q1,1);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    enqueue(q1,16);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    enqueue(q1,15);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    enqueue(q1,10);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    enqueue(q1,13);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    enqueue(q1,11);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    enqueue(q1,21);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    enqueue(q1,25);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    
+    dequeue(q1);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    dequeue(q1);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    dequeue(q1);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    
+    enqueue(q1,1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    enqueue(q1,2);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    enqueue(q1,3);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    enqueue(q1,11);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    enqueue(q1,21);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    enqueue(q1,25);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    
+    dequeue(q1);printf("f:%d_r:%d_s:%d\n",q1->front,q1->rear,q1->size);
+    dequeue(q1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    dequeue(q1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    dequeue(q1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    dequeue(q1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    dequeue(q1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    dequeue(q1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    dequeue(q1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    dequeue(q1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    dequeue(q1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    dequeue(q1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    dequeue(q1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    
+    enqueue(q1,25);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    dequeue(q1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    dequeue(q1);printf("f:%d_r:%d\n",q1->front,q1->rear);
+    return 0;}
 
 
 queue pure pointers
 ...............................................................................................
 
-#include <stdio.h>
-#define MAXSIZE 100
-struct queue{
-    int front;
-    int rear;
-    int items[MAXSIZE];
-};
-
-void insert(struct queue *head,int value){
-    if(isFull(head)){
-        printf("Queue is already full\n");
-        return;
-    }
-    if(head->front==-1){
-        head->front=0;
-    }
-    
-    head->items[++head->rear]=value;
-    printf("%d inserted with rear %d,front %d\n",value,head->rear,head->front);
-    if(isFull(head)){
-        printf("Queue is full NOW\n");
-        return;
-    }
-}
-void delete_at_front_in_array(int array[]){
-    printf("deleted %d from array\n",array[0]);
-    for(int i=0;i<MAXSIZE-1;i++){
-        array[i]=array[i+1];
-    }
-}
-void dequeue(struct queue *head){
-    if(head->rear==-1 && head->front==-1){
-        printf("Queue is empty now\n");
-        return;
-    }
-    delete_at_front_in_array(head->items);
-    head->rear--;
-    if(head->rear==-1){
-        head->front=-1;
-    }
-    printf("rear now %d and front now %d\n",head->rear,head->front);
-    
-}
-int isFull(struct queue *head){
-    if(head->rear==MAXSIZE-1){
-        return 1;
-    }
-    return 0;
-}
-int isEmpty(struct queue *head){
-    if(head->rear==-1){
-        return 1;
-    }
-    return 0;
-}
-int main() {
-    struct queue *head=malloc(sizeof(struct queue));
-    head->front=-1;head->rear=-1;
-    insert(head,12);
-    insert(head,13);
-    dequeue(head);
-    insert(head,120);
-    insert(head,1231);
-    
-    int val=0;
-    for(int i=0;i<MAXSIZE;i++){
-        val++;
-        insert(head,val);
-    }
-    for(int i=0;i<MAXSIZE+3;i++){
-        val++;
-        dequeue(head);
-    }
-    return 0;
-}
 
 queue pure linked lists
 ................................................................................................
@@ -243,7 +194,5 @@ int main() {
         head=dequeue(head);
     }
     
-    
-
     return 0;
 }
