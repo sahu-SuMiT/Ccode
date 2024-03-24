@@ -55,28 +55,12 @@ void BFS(struct Graph *g, int s){
     
     while(front<rear){
         s=queue[front++];
-        printf("%d ",s);
-        
-/*        
-        for (int adjacent = 0; adjacent < g->V;
-             adjacent++) {
-            if (g->adj[s][adjacent] && !visited[adjacent]) {
-                visited[adjacent] = 1;
-                queue[rear++] = adjacent;
-            }
-        }*/
-        
+        printf("%d ",s);        
         for(int adjacent=0;adjacent<g->V;adjacent++){
             if(!visited[adjacent] && g->adj[s][adjacent]){
                 queue[rear++]=adjacent;
-                visited[adjacent]=1;
-            }
-        }
-        
-        
-        
-    }
-}
+                visited[adjacent]=1;}}}}
+
 int main() {
     struct Graph *head=create_graph(4);
     add_node(head,0,1);
@@ -102,6 +86,22 @@ int main() {
     DFS(head,2,visited);
     printf("\nBFS\n");
     BFS(head,2);
+
+    //queue is needed
+    ///BFS Traversal
+    int visited[7]={0,0,0,0,0,0,0};
+    struct Queue *queue=create_queue(7);
+    
+    int s=0;//Mark the start
+    enqueue(queue,s);
+    visited[s]=1;
+    while(!isEmpty(queue)){
+        s=dequeue(queue);
+        printf("%d ",s);
+        for(int adjacent=0;adjacent<7;adjacent++){
+            if(graph[s][adjacent]!=0 && visited[adjacent]==0){
+                enqueue(queue,adjacent);
+                visited[adjacent]=1;}}}
     return 0;
     
 }
