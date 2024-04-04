@@ -1,7 +1,7 @@
+
 #include <iostream>
 using namespace std;
 
-// Function to get the cofactor matrix
 void getCofactor(int mat[10][10], int temp[10][10], int p, int q, int n) {
     int i = 0, j = 0;
     for (int row = 0; row < n; row++) {
@@ -16,8 +16,6 @@ void getCofactor(int mat[10][10], int temp[10][10], int p, int q, int n) {
         }
     }
 }
-
-// Recursive function to calculate the determinant
 int determinant(int mat[10][10], int n) {
     int D = 0;
     if (n == 1)
@@ -33,18 +31,48 @@ int determinant(int mat[10][10], int n) {
     return D;
 }
 
-int main() {
-    int mat[10][10]; int n,D;
-    cout<<"Enter order,n for matrix:\n";cin>>n;
-    cout<<"Enter the elements\n";
-    for(int i=0;i<n;i++){
-        for(int j=0;j<n;j++){
-            cin>>mat[i][j];
+class Matrix{
+    int matrix[10][10];
+    int n;
+public:
+    Matrix(int order):n(order){
+        cout<<"Enter the elements for your "<<n<<" x "<<n<<" matrix\n";
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                cin>>matrix[i][j];
+            }
         }
     }
-    D = determinant(mat,n);
-    cout<<"Determinant: "<<D<<"\n";
-    (D==0)?cout<<"NOT Invertible":cout<<"Invertible";
+    ~Matrix(){
+    }
+    void print(){
+        cout<<"Your Matrix:\n";
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                cout<<matrix[i][j]<<" ";
+            }
+            cout<<"\n";
+        }
+    }
     
+    void is_invertible(){
+        int D=determinant(matrix,n);
+        if(D){
+            cout<<"\nInvertible as determinant: "<<D<<endl;
+        }
+        else{
+            cout<<"\nNOT INVERTIBLE as determinant: "<<D<<endl;
+        }
+    }
+
+    
+};
+
+int main() {
+    int n;
+    cout<<"Enter matrix order, n=";cin>>n;
+    Matrix m1(n);
+    m1.print();
+    m1.is_invertible();
     return 0;
 }
