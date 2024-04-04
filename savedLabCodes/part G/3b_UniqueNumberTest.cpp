@@ -15,7 +15,7 @@ public:
         }
     }
     ~UniqueNumberTest(){
-        
+        delete array;
     }
     int digits(){
         int n=num;
