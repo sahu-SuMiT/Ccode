@@ -1,65 +1,58 @@
 #include <iostream>
+#include <cmath>
 using namespace std;
+const int pi=3.1415;
 
-class Circle{
+class Component {
 protected:
-    double radius;
+    string name;
+    double value;
+    string type;
 public:
-    Circle(){
-        cout<<"Circle constructor called\n";
-        cout<<"Enter radius of circle:";
-        cin>>radius;
+    Component(string n, double v, string t) : name(n), value(v), type(t) {}
+};
+
+class Resistor : public Component {
+public:
+    Resistor(double resistance) : Component("Resistor", resistance, "Ohm") {}
+};
+
+class Capacitor : public Component {
+public:
+    Capacitor(double capacitance) : Component("Capacitor", capacitance, "Farad") {}
+};
+
+class Inductor : public Component {
+public:
+    Inductor(double inductance) : Component("Inductor", inductance, "Henry") {}
+};
+
+class SeriesRLC : public Resistor, public Capacitor, public Inductor {
+    double frequency;
+public:
+    SeriesRLC(double r, double c, double l, double f)
+        : Resistor(r), Capacitor(c), Inductor(l), frequency(f) {}
+
+    double calculateImpedance() {
+        double XL = 2 * pi * frequency * Inductor::value;  // Inductive reactance
+        double XC = 1 / (2 * pi * frequency * Capacitor::value);  // Capacitive reactance
+        return sqrt(Resistor::value*Resistor::value +(XL - XC)*(XL-XC));  // Impedance
     }
 
-    void get_area(){
-        cout<<"Circle Area: "<<3.14*radius*radius<<endl;
+    double calculateBandwidth() {
+        return Resistor::value / (2 * pi * Inductor::value);  // Bandwidth=R/L
+    }
+
+    double calculateResonantFrequency() {
+        return 1 / (2 * M_PI * sqrt(Inductor::value * Capacitor::value));  // Resonant frequency=1/2pi*sqrt(LC)
     }
 };
 
-class Rectangle{
-protected:
-    double length;
-    double width;
-public:
-    Rectangle(){
-        cout<<"Rectangle constructor called\n";
-        cout<<"Enter length & width of rectangle:";
-        cin >>length>>width;
-    }
-    void get_area(){
-        cout<<"Rectangle Area: "<<length * width <<endl;
-    }
-};
-
-class Cylinder : public Circle, public Rectangle{
-public:
-    void cylinder_area(){
-        double pi = 3.1415;
-        double circumference=2*pi*radius;
-        if(circumference<=length){
-            cout<<"Derived cylinder has Total Surface area: "<< 2*pi*radius*(width+radius)<<endl;
-        }
-        else{
-            cout<<"Cylinder cannot be made\n";
-        }
-    }
-    void cylinder_volume(){
-        double pi = 3.1415;
-        double circumference=2*pi*radius;
-        if(circumference<=length){
-            cout<<"Derived cylinder has Total Volume: "<< pi*radius*radius*width<<endl;
-        }
-        else{
-            cout<<"Cylinder cannot be made\n";
-        }
-    }
-};
-
-int main(){
-    Cylinder c1;
-
-    c1.cylinder_area();
-    c1.cylinder_volume();
-
+int main() {
+    //Enter resistance, capacitance, Inductance and frequency
+    SeriesRLC circuit(100, 0.001, 0.01, 50);
+    cout << "Impedance: " << circuit.calculateImpedance() << " Ohm" << endl;
+    cout << "Bandwidth: " << circuit.calculateBandwidth() << " Hz" << endl;
+    cout << "Resonant Frequency: " << circuit.calculateResonantFrequency() << " Hz" << endl;
     return 0;
 }
